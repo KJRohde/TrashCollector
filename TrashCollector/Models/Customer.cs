@@ -16,6 +16,7 @@ namespace TrashCollector.Models
         public string StreetAddress { get; set; }
         public string City{ get; set; }
         public string State { get; set; }
+        public string ZipCode { get; set; }
         public string PickupDay { get; set; }
         public DateTime Exceptions { get; set; }
         [ForeignKey("ApplicationUser")]

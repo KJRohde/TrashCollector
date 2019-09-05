@@ -47,10 +47,11 @@ namespace TrashCollector.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        public ActionResult Create([Bind(Include = "Id,FirstName,LastName,StreetAddress,City,State,PickupDay,Exceptions")] Customer customer)
+        public ActionResult Create([Bind(Include = "Id,FirstName,LastName,StreetAddress,City,State,PickupDay")] Customer customer)
         {
-            var currentUser = User.Identity.GetUserId();
-            if (customer.ApplicationUserId == currentUser)
+            var currentUserId = User.Identity.GetUserId();
+            customer.ApplicationUserId = currentUserId;
+            if (customer.ApplicationUserId == currentUserId)
             {
                 db.Customers.Add(customer);
                 db.SaveChanges();

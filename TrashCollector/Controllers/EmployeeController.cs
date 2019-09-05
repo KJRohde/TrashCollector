@@ -49,8 +49,9 @@ namespace TrashCollector.Controllers
         [HttpPost]
         public ActionResult Create([Bind(Include = "Id,AreaZipCode,Email,FirstName,LastName")] Employee employee)
         {
-            var currentUser = User.Identity.GetUserId();
-            if (employee.ApplicationUserId == currentUser)
+            var currentUserId = User.Identity.GetUserId();
+            employee.ApplicationUserId = currentUserId;
+            if (employee.ApplicationUserId == currentUserId)
             {
                 db.Employees.Add(employee);
                 db.SaveChanges();

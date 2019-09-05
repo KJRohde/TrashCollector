@@ -17,6 +17,7 @@ namespace TrashCollector.Migrations
                         StreetAddress = c.String(),
                         City = c.String(),
                         State = c.String(),
+                        ZipCode = c.String(),
                         PickupDay = c.String(),
                         Exceptions = c.DateTime(nullable: false),
                         ApplicationUserId = c.String(maxLength: 128),
