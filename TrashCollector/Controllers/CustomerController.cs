@@ -16,9 +16,10 @@ namespace TrashCollector.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Employees
-        public ActionResult Index()
+        public ActionResult Index(int id)
         {
-            return View(db.Customers.ToList());
+            Customer customer = db.Customers.Where(c => c.Id == id).Single();
+            return View(customer);
         }
 
         // GET: Employees/Details/5
@@ -47,7 +48,7 @@ namespace TrashCollector.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        public ActionResult Create([Bind(Include = "Id,FirstName,LastName,StreetAddress,City,State,PickupDay")] Customer customer)
+        public ActionResult Create([Bind(Include = "Id,FirstName,LastName,StreetAddress,City,State,ZipCode,PickupDay")] Customer customer)
         {
             var currentUserId = User.Identity.GetUserId();
             customer.ApplicationUserId = currentUserId;
@@ -55,7 +56,7 @@ namespace TrashCollector.Controllers
             {
                 db.Customers.Add(customer);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new {id = customer.Id});
             }
 
             return View(customer);
@@ -81,7 +82,7 @@ namespace TrashCollector.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,AreaZipCode,Email,FirstName,LastName")] Customer customer)
+        public ActionResult Edit([Bind(Include = "FirstName,LastName,StreetAddress,City,State,ZipCode,nPickupDay")] Customer customer)
         {
             if (ModelState.IsValid)
             {

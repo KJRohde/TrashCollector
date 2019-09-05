@@ -19,7 +19,6 @@ namespace TrashCollector.Migrations
                         State = c.String(),
                         ZipCode = c.String(),
                         PickupDay = c.String(),
-                        Exceptions = c.DateTime(nullable: false),
                         ApplicationUserId = c.String(maxLength: 128),
                     })
                 .PrimaryKey(t => t.Id)

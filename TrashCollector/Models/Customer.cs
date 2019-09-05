@@ -18,7 +18,7 @@ namespace TrashCollector.Models
         public string State { get; set; }
         public string ZipCode { get; set; }
         public string PickupDay { get; set; }
-        public DateTime Exceptions { get; set; }
+
         [ForeignKey("ApplicationUser")]
         public string ApplicationUserId { get; set; }
         public ApplicationUser ApplicationUser { get; set; }
