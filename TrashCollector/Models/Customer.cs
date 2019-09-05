@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
@@ -15,8 +16,11 @@ namespace TrashCollector.Models
         public string StreetAddress { get; set; }
         public string City{ get; set; }
         public string State { get; set; }
-        public string PickupDays { get; set; }
+        public string PickupDay { get; set; }
         public DateTime Exceptions { get; set; }
+        [ForeignKey("ApplicationUser")]
+        public string ApplicationUserId { get; set; }
+        public ApplicationUser ApplicationUser { get; set; }
 
     }
 }

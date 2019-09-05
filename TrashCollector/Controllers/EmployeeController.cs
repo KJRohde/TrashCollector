@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -10,19 +11,18 @@ using TrashCollector.Models;
 
 namespace TrashCollector.Controllers
 {
-    public class EmployeesController : Controller
+    public class EmployeeController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Employees
-        public ActionResult Index(int id)
+        public ActionResult Index()
         {
-            Employee employee = db.Employees.Find(id);
-            return View(employee);
+            return View(db.Employees.ToList());
         }
 
         // GET: Employees/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Details(int? id)
         {
             if (id == null)
             {
@@ -39,7 +39,25 @@ namespace TrashCollector.Controllers
         // GET: Employees/Create
         public ActionResult Create()
         {
-            return View();
+            Employee employee = new Employee();
+            return View(employee);
+        }
+
+        // POST: Employees/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        public ActionResult Create([Bind(Include = "Id,AreaZipCode,Email,FirstName,LastName")] Employee employee)
+        {
+            var currentUser = User.Identity.GetUserId();
+            if (employee.ApplicationUserId == currentUser)
+            {
+                db.Employees.Add(employee);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+
+            return View(employee);
         }
 
         // GET: Employees/Edit/5
