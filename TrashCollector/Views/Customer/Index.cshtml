@@ -51,6 +51,14 @@
         </dd>
 
         <dt>
+            @Html.DisplayNameFor(model => model.ZipCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ZipCode)
+        </dd>
+
+        <dt>
             @Html.DisplayNameFor(model => model.PickupDay)
         </dt>
 
@@ -60,4 +68,5 @@
     </dl>
 </div>
 <p>
+    @Html.ActionLink("Edit Information", "Edit", "Customer", new { id = Model.Id })
 </p>
