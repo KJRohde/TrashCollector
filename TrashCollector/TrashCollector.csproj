@@ -184,6 +184,10 @@
     <Compile Include="Migrations\201909052100351_secondary.Designer.cs">
       <DependentUpon>201909052100351_secondary.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201909061504148_getcustomers.cs" />
+    <Compile Include="Migrations\201909061504148_getcustomers.Designer.cs">
+      <DependentUpon>201909061504148_getcustomers.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Customer.cs" />
@@ -254,12 +258,11 @@
     <Content Include="Views\Employee\Delete.cshtml" />
     <Content Include="Views\Employee\Details.cshtml" />
     <Content Include="Views\Employee\Edit.cshtml" />
-    <Content Include="Views\Employee\Index.cshtml" />
-    <Content Include="Views\Customer\Delete.cshtml" />
     <Content Include="Views\Customer\Create.cshtml" />
     <Content Include="Views\Employee\Create.cshtml" />
     <Content Include="Views\Shared\_LayoutCustomer.cshtml" />
     <Content Include="Views\Shared\_LayoutEmployee.cshtml" />
+    <Content Include="Views\Employee\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -284,6 +287,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201909052100351_secondary.resx">
       <DependentUpon>201909052100351_secondary.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201909061504148_getcustomers.resx">
+      <DependentUpon>201909061504148_getcustomers.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

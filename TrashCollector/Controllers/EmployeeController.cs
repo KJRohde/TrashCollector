@@ -19,7 +19,8 @@ namespace TrashCollector.Controllers
         public ActionResult Index(int id)
         {
             Employee employee = db.Employees.Where(c => c.Id == id).Single();
-            return View(employee);
+            List<Customer> customers = db.Customers.Where(u => u.ZipCode == employee.AreaZipCode).ToList();
+            return View(customers);
         }
 
         // GET: Employees/Details/5

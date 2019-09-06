@@ -1,5 +1,4 @@
 ﻿@model TrashCollector.Models.Customer
-
 @{
     ViewBag.Title = "Index";
 }
@@ -68,5 +67,7 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit Information", "Edit", "Customer", new { id = Model.Id })
+    @Html.ActionLink("Edit Information", "Edit", new { id = Model.Id })
+    @Html.ActionLink("Request one time pickup", "Pickup", new { id = Model.Id })
+    @Html.ActionLink("Monthly Statement", "Statement", new { id = Model.Id})
 </p>
