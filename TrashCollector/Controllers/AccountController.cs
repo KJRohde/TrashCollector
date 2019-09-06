@@ -18,10 +18,10 @@ namespace TrashCollector.Controllers
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
-        ApplicationDbContext context;
+        private ApplicationDbContext db = new ApplicationDbContext();
         public AccountController()
         {
-            context = new ApplicationDbContext();
+            db = new ApplicationDbContext();
         }
 
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
@@ -81,7 +81,18 @@ namespace TrashCollector.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
+
+                    if (User.IsInRole("Customer"))
+                    {
+                        Customer customer = db.Customers.Where(c => c.UserName == model.UserName).Single();
+                        return RedirectToAction("Index", "Customer", new { id = customer.Id });
+                    }
+                    if (User.IsInRole("Employee"))
+                    {
+                        Employee employee = db.Employees.Where(e => e.UserName == model.UserName).Single();
+                        return RedirectToAction("Index", "Employee", new { id = employee.Id });
+                    }
+                    return RedirectToAction("Index", "Home");
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
@@ -142,7 +153,7 @@ namespace TrashCollector.Controllers
         public ActionResult Register()
         {
 
-            ViewBag.Name = new SelectList(context.Roles.ToList(), "Name", "Name");
+            ViewBag.Name = new SelectList(db.Roles.ToList(), "Name", "Name");
             return View();
         }
 
@@ -164,7 +175,7 @@ namespace TrashCollector.Controllers
                 }
                 AddErrors(result);
             }
-            ViewBag.Name = new SelectList(context.Roles.ToList(), "Name", "Name");
+            ViewBag.Name = new SelectList(db.Roles.ToList(), "Name", "Name");
             // If we got this far, something failed, redisplay form
             return View(model);
         }

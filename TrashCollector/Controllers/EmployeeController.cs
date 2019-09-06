@@ -19,7 +19,7 @@ namespace TrashCollector.Controllers
         public ActionResult Index(int id)
         {          
             Employee employee = db.Employees.Where(c => c.Id == id).Single();
-            List<Customer> customers = db.Customers.Where(u => u.ZipCode == employee.AreaZipCode && u.PickupDay == DateTime.Now.DayOfWeek).ToList();
+            var customers = db.Customers.Where(u => u.ZipCode == employee.AreaZipCode && u.PickupDay == DateTime.Now.DayOfWeek).ToList();
             return View(customers);
         }
 
@@ -56,10 +56,11 @@ namespace TrashCollector.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        public ActionResult Create([Bind(Include = "Id,AreaZipCode,Email,FirstName,LastName")] Employee employee)
+        public ActionResult Create([Bind(Include = "UserName,Id,AreaZipCode,Email,FirstName,LastName")] Employee employee)
         {
             var currentUserId = User.Identity.GetUserId();
             employee.ApplicationUserId = currentUserId;
+            employee.UserName = User.Identity.GetUserName();
             if (employee.ApplicationUserId == currentUserId)
             {
                 db.Employees.Add(employee);

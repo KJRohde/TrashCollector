@@ -43,10 +43,11 @@ namespace TrashCollector.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create([Bind(Include = "Id,FirstName,LastName,PickupActivity,StreetAddress,City,State,ZipCode,PickupDay,OneTimePickup")] Customer customer)
+        public ActionResult Create([Bind(Include = "UserName,Id,FirstName,LastName,PickupActivity,StreetAddress,City,State,ZipCode,PickupDay,OneTimePickup")] Customer customer)
         {
             var currentUserId = User.Identity.GetUserId();
             customer.ApplicationUserId = currentUserId;
+            customer.UserName = User.Identity.GetUserName();
             if (customer.ApplicationUserId == currentUserId)
             {
                 db.Customers.Add(customer);
@@ -85,13 +86,21 @@ namespace TrashCollector.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "FirstName,LastName,PickupActivity,StreetAddress,City,State,ZipCode,PickupDay")] Customer customer)
+        public ActionResult Edit([Bind(Include = "Id,FirstName,LastName,PickupActivity,StreetAddress,City,State,ZipCode,PickupDay")]int id, Customer customer)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(customer).State = EntityState.Modified;
+                Customer customerToEdit = db.Customers.Where(c => c.Id == id).Single();
+                customerToEdit.FirstName = customer.FirstName;
+                    customerToEdit.LastName = customer.LastName;
+                    customerToEdit.PickupActivity = customer.PickupActivity;
+                    customerToEdit.StreetAddress = customer.StreetAddress;
+                    customerToEdit.City = customer.City;
+                    customerToEdit.State = customer.State;
+                    customerToEdit.ZipCode = customer.ZipCode;
+                    customerToEdit.PickupDay = customer.PickupDay;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { id = customer.Id });
             }
             return View(customer);
         }

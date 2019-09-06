@@ -12,6 +12,7 @@ namespace TrashCollector.Migrations
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
+                        UserName = c.String(),
                         FirstName = c.String(),
                         LastName = c.String(),
                         StreetAddress = c.String(),
@@ -19,7 +20,8 @@ namespace TrashCollector.Migrations
                         State = c.String(),
                         ZipCode = c.String(),
                         PickupDay = c.Int(nullable: false),
-                        OneTimePickup = c.DateTime(nullable: false),
+                        OneTimePickup = c.String(),
+                        PickupActivity = c.Boolean(nullable: false),
                         ApplicationUserId = c.String(maxLength: 128),
                     })
                 .PrimaryKey(t => t.Id)
@@ -89,6 +91,7 @@ namespace TrashCollector.Migrations
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
+                        UserName = c.String(),
                         AreaZipCode = c.String(),
                         Email = c.String(),
                         FirstName = c.String(),
