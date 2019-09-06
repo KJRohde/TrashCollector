@@ -3,7 +3,7 @@ namespace TrashCollector.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class secondary : DbMigration
+    public partial class addmigrationcustomerdatatypes : DbMigration
     {
         public override void Up()
         {

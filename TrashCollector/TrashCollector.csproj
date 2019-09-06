@@ -176,17 +176,17 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201909052000168_init.cs" />
-    <Compile Include="Migrations\201909052000168_init.Designer.cs">
-      <DependentUpon>201909052000168_init.cs</DependentUpon>
+    <Compile Include="Migrations\201909061603129_init.cs" />
+    <Compile Include="Migrations\201909061603129_init.Designer.cs">
+      <DependentUpon>201909061603129_init.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201909052100351_secondary.cs" />
-    <Compile Include="Migrations\201909052100351_secondary.Designer.cs">
-      <DependentUpon>201909052100351_secondary.cs</DependentUpon>
+    <Compile Include="Migrations\201909061607534_secondary.cs" />
+    <Compile Include="Migrations\201909061607534_secondary.Designer.cs">
+      <DependentUpon>201909061607534_secondary.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201909061504148_getcustomers.cs" />
-    <Compile Include="Migrations\201909061504148_getcustomers.Designer.cs">
-      <DependentUpon>201909061504148_getcustomers.cs</DependentUpon>
+    <Compile Include="Migrations\201909061616505_add-migration customerdatatypes.cs" />
+    <Compile Include="Migrations\201909061616505_add-migration customerdatatypes.Designer.cs">
+      <DependentUpon>201909061616505_add-migration customerdatatypes.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -263,6 +263,7 @@
     <Content Include="Views\Shared\_LayoutCustomer.cshtml" />
     <Content Include="Views\Shared\_LayoutEmployee.cshtml" />
     <Content Include="Views\Employee\Index.cshtml" />
+    <Content Include="Views\Customer\OneTime.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -282,14 +283,14 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201909052000168_init.resx">
-      <DependentUpon>201909052000168_init.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201909061603129_init.resx">
+      <DependentUpon>201909061603129_init.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201909052100351_secondary.resx">
-      <DependentUpon>201909052100351_secondary.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201909061607534_secondary.resx">
+      <DependentUpon>201909061607534_secondary.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201909061504148_getcustomers.resx">
-      <DependentUpon>201909061504148_getcustomers.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201909061616505_add-migration customerdatatypes.resx">
+      <DependentUpon>201909061616505_add-migration customerdatatypes.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

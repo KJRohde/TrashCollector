@@ -12,13 +12,25 @@ namespace TrashCollector.Models
     {
         [Key]
         public int Id { get; set; }
+        [Display(Name = "First Name")]
         public string FirstName { get; set; }
+        [Display(Name = "Last Name")]
         public string LastName { get; set; }
+        [Display(Name = "Street Address")]
         public string StreetAddress { get; set; }
+        [Display(Name = "City")]
         public string City{ get; set; }
+        [Display(Name = "State")]
         public string State { get; set; }
+        [Display(Name = "Zip")]
         public string ZipCode { get; set; }
-        public string PickupDay { get; set; }
+        [Display(Name = "Weekly Pickup Day")]
+        public DayOfWeek PickupDay { get; set; }
+        [Display(Name = "One Time")]
+        [DataType(DataType.Date)]
+        public string OneTimePickup { get; set; }
+        [Display(Name = "Pickup Activity On/Off")]
+        public bool PickupActivity { get; set; }
 
         [ForeignKey("ApplicationUser")]
         public string ApplicationUserId { get; set; }

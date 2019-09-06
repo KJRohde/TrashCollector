@@ -64,7 +64,21 @@
         <dd>
             @Html.DisplayFor(model => model.PickupDay)
         </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.OneTimePickup)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OneTimePickup)
+        </dd>
     </dl>
+    <div class="form-group">
+        @Html.LabelFor(model => model.PickupActivity, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.PickupActivity, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.PickupActivity, "", new { @class = "text-danger" })
+        </div>
+    </div>
 </div>
 <p>
     @Html.ActionLink("Edit Information", "Edit", new { id = Model.Id })

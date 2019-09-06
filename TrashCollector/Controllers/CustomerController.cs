@@ -36,19 +36,14 @@ namespace TrashCollector.Controllers
             }
             return View(customer);
         }
-
-        // GET: Employees/Create
         public ActionResult Create()
         {
             Customer customer = new Customer();
             return View(customer);
         }
 
-        // POST: Employees/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        public ActionResult Create([Bind(Include = "Id,FirstName,LastName,StreetAddress,City,State,ZipCode,PickupDay")] Customer customer)
+        public ActionResult Create([Bind(Include = "Id,FirstName,LastName,PickupActivity,StreetAddress,City,State,ZipCode,PickupDay,OneTimePickup")] Customer customer)
         {
             var currentUserId = User.Identity.GetUserId();
             customer.ApplicationUserId = currentUserId;
@@ -61,28 +56,36 @@ namespace TrashCollector.Controllers
 
             return View(customer);
         }
+        public ActionResult OneTime(int id)
+        {
+            Customer oneTimeCustomer = db.Customers.Where(c => c.Id == id).Single();
+            return View(oneTimeCustomer);
+        }
+        [HttpPost]
+        public ActionResult OneTime([Bind(Include = "OneTimePickup")] int id, Customer customer)
+        {
+            Customer oneTimeCustomer = db.Customers.Where(c => c.Id == id).Single();
+            oneTimeCustomer.OneTimePickup = customer.OneTimePickup;
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
 
-        // GET: Employees/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Customer customer = db.Customers.Find(id);
+            Customer customer = db.Customers.Where(c => c.Id == id).Single();
             if (customer == null)
             {
                 return HttpNotFound();
             }
             return View(customer);
         }
-
-        // POST: Employees/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "FirstName,LastName,StreetAddress,City,State,ZipCode,PickupDay")] Customer customer)
+        public ActionResult Edit([Bind(Include = "FirstName,LastName,PickupActivity,StreetAddress,City,State,ZipCode,PickupDay")] Customer customer)
         {
             if (ModelState.IsValid)
             {
@@ -93,7 +96,6 @@ namespace TrashCollector.Controllers
             return View(customer);
         }
 
-        // GET: Employees/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -108,7 +110,6 @@ namespace TrashCollector.Controllers
             return View(customer);
         }
 
-        // POST: Employees/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
