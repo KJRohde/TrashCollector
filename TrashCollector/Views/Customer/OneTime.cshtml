@@ -7,6 +7,16 @@
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.Id)
+    @Html.HiddenFor(model => model.UserName)
+    @Html.HiddenFor(model => model.ApplicationUserId)
+    @Html.HiddenFor(model => model.FirstName)
+    @Html.HiddenFor(model => model.LastName)
+    @Html.HiddenFor(model => model.StreetAddress)
+    @Html.HiddenFor(model => model.City)
+    @Html.HiddenFor(model => model.State)
+    @Html.HiddenFor(model => model.ZipCode)
+    @Html.HiddenFor(model => model.PickupActivity)
 
     <div class="form-horizontal">
         <div class="form-group">

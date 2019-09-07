@@ -6,6 +6,7 @@
     <title>@ViewBag.Title - My ASP.NET Application</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+    @model TrashCollector.Models.Customer
 
 </head>
 <body>
@@ -21,8 +22,7 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Delete", "Delete", "Customer")</li>
-                    <li>@Html.ActionLink("Edit", "Edit", "Customer")</li>
+                    <li>@Html.ActionLink("Edit", "Edit")</li>
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>

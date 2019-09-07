@@ -10,6 +10,9 @@
     <h4>Employee</h4>
     <hr />
     <dl class="dl-horizontal">
+        @Html.HiddenFor(model => model.Id)
+        @Html.HiddenFor(model => model.UserName)
+        @Html.HiddenFor(model => model.ApplicationUserId)
         <dt>
             @Html.DisplayNameFor(model => model.AreaZipCode)
         </dt>

@@ -43,7 +43,7 @@ namespace TrashCollector.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create([Bind(Include = "UserName,Id,FirstName,LastName,PickupActivity,StreetAddress,City,State,ZipCode,PickupDay,OneTimePickup")] Customer customer)
+        public ActionResult Create([Bind(Include = "ApplicationUserId,UserName,Id,FirstName,LastName,PickupActivity,StreetAddress,City,State,ZipCode,PickupDay,OneTimePickup")] Customer customer)
         {
             var currentUserId = User.Identity.GetUserId();
             customer.ApplicationUserId = currentUserId;
@@ -63,9 +63,9 @@ namespace TrashCollector.Controllers
             return View(oneTimeCustomer);
         }
         [HttpPost]
-        public ActionResult OneTime([Bind(Include = "OneTimePickup")] int id, Customer customer)
+        public ActionResult OneTime([Bind(Include = "ApplicationUserId, UserName, Id, FirstName, LastName, PickupActivity, StreetAddress, City, State, ZipCode, PickupDay, OneTimePickup")] string id, Customer customer)
         {
-            Customer oneTimeCustomer = db.Customers.Where(c => c.Id == id).Single();
+            Customer oneTimeCustomer = db.Customers.Where(c => c.ApplicationUserId == id).Single();
             oneTimeCustomer.OneTimePickup = customer.OneTimePickup;
             db.SaveChanges();
             return RedirectToAction("Index");
@@ -86,11 +86,11 @@ namespace TrashCollector.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,FirstName,LastName,PickupActivity,StreetAddress,City,State,ZipCode,PickupDay")]int id, Customer customer)
+        public ActionResult Edit([Bind(Include = "Id,FirstName,LastName,PickupActivity,StreetAddress,City,State,ZipCode,PickupDay")]string id, Customer customer)
         {
             if (ModelState.IsValid)
             {
-                Customer customerToEdit = db.Customers.Where(c => c.Id == id).Single();
+                Customer customerToEdit = db.Customers.Where(c => c.ApplicationUserId == id).Single();
                 customerToEdit.FirstName = customer.FirstName;
                     customerToEdit.LastName = customer.LastName;
                     customerToEdit.PickupActivity = customer.PickupActivity;
