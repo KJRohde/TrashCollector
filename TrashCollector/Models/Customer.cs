@@ -33,9 +33,18 @@ namespace TrashCollector.Models
         public string OneTimePickup { get; set; }
         [Display(Name = "Pickup Activity On/Off")]
         public bool PickupActivity { get; set; }
+        [Display(Name = "Monthly Bill")]
+        public double MonthlyBill { get; set; }
+        [Display(Name = "Suspension Start")]
+        [DataType(DataType.Date)]
+        public string SuspensionStart { get; set; }
+        [Display(Name = "Suspension End")]
+        [DataType(DataType.Date)]
+        public string SuspensionEnd { get; set; }
 
         [ForeignKey("ApplicationUser")]
         public string ApplicationUserId { get; set; }
+        public ApplicationUser ApplicationUser { get; set; }
 
         public IEnumerator GetEnumerator()
         {

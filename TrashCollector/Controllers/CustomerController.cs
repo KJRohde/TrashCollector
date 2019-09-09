@@ -41,7 +41,7 @@ namespace TrashCollector.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create([Bind(Include = "ApplicationUserId,UserName,Id,FirstName,LastName,PickupActivity,StreetAddress,City,State,ZipCode,PickupDay,OneTimePickup")] Customer customer)
+        public ActionResult Create([Bind(Include = "FirstName,LastName,PickupActivity,StreetAddress,City,State,ZipCode,PickupDay")] Customer customer)
         {
             var currentUserId = User.Identity.GetUserId();
             customer.ApplicationUserId = currentUserId;
@@ -50,7 +50,7 @@ namespace TrashCollector.Controllers
             {
                 db.Customers.Add(customer);
                 db.SaveChanges();
-                return RedirectToAction("Index", new {id = customer.Id});
+                return RedirectToAction("Index", new { id = customer.Id });
             }
 
             return View(customer);
@@ -61,9 +61,9 @@ namespace TrashCollector.Controllers
             return View(oneTimeCustomer);
         }
         [HttpPost]
-        public ActionResult OneTime([Bind(Include = "OneTimePickup")] string id, Customer customer)
+        public ActionResult OneTime([Bind(Include = "OneTimePickup")] Customer customer, string id)
         {
-            Customer oneTimeCustomer = db.Customers.Where(c => c.ApplicationUserId == id).Single();
+            Customer oneTimeCustomer = db.Customers.Find(id);
             oneTimeCustomer.OneTimePickup = customer.OneTimePickup;
             db.SaveChanges();
             return RedirectToAction("Index");
@@ -84,19 +84,19 @@ namespace TrashCollector.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,FirstName,LastName,PickupActivity,StreetAddress,City,State,ZipCode,PickupDay")]string id, Customer customer)
+        public ActionResult Edit([Bind(Include = "ApplicationUserId,UserName,Id,FirstName,LastName,PickupActivity,StreetAddress,City,State,ZipCode,PickupDay,OneTimePickup,MonthlyBill,SuspensionStart,SuspensionEnd")]string id, Customer customer)
         {
             if (ModelState.IsValid)
             {
                 Customer customerToEdit = db.Customers.Where(c => c.ApplicationUserId == id).Single();
                 customerToEdit.FirstName = customer.FirstName;
-                    customerToEdit.LastName = customer.LastName;
-                    customerToEdit.PickupActivity = customer.PickupActivity;
-                    customerToEdit.StreetAddress = customer.StreetAddress;
-                    customerToEdit.City = customer.City;
-                    customerToEdit.State = customer.State;
-                    customerToEdit.ZipCode = customer.ZipCode;
-                    customerToEdit.PickupDay = customer.PickupDay;
+                customerToEdit.LastName = customer.LastName;
+                customerToEdit.PickupActivity = customer.PickupActivity;
+                customerToEdit.StreetAddress = customer.StreetAddress;
+                customerToEdit.City = customer.City;
+                customerToEdit.State = customer.State;
+                customerToEdit.ZipCode = customer.ZipCode;
+                customerToEdit.PickupDay = customer.PickupDay;
                 db.SaveChanges();
                 return RedirectToAction("Index", new { id = customer.Id });
             }
@@ -134,6 +134,38 @@ namespace TrashCollector.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+        public ActionResult Charge(int id)
+        {
+            Customer customer = db.Customers.Where(c => c.Id == id).Single();
+            return View(customer);
+        }
+
+        [HttpPost]
+        public ActionResult Charge([Bind(Include = "ApplicationUserId,UserName,Id,FirstName,LastName,PickupActivity,StreetAddress,City,State,ZipCode,PickupDay,OneTimePickup,MonthlyBill,SuspensionStart,SuspensionEnd")] Customer customer, int id)
+        {
+            double pickupCharge = 15.00;
+            if (ModelState.IsValid)
+            {
+                Customer customerToCharge = db.Customers.Where(c => c.Id == id).Single();
+                customerToCharge.MonthlyBill += pickupCharge;
+                return RedirectToAction("Index");
+            }
+            return View(customer);
+        }
+        public ActionResult Suspend(int id)
+        {
+            Customer oneTimeCustomer = db.Customers.Where(c => c.Id == id).Single();
+            return View(oneTimeCustomer);
+        }
+        [HttpPost]
+        public ActionResult Suspend([Bind(Include = "ApplicationUserId,UserName,Id,FirstName,LastName,PickupActivity,StreetAddress,City,State,ZipCode,PickupDay,OneTimePickup,MonthlyBill,SuspensionStart,SuspensionEnd")] Customer customer, string id)
+        {
+            Customer suspendCustomer = db.Customers.Where(c => c.ApplicationUserId == id).Single();
+            suspendCustomer.SuspensionStart = customer.SuspensionStart;
+            suspendCustomer.SuspensionEnd = customer.SuspensionEnd;
+            db.SaveChanges();
+            return RedirectToAction("Index");
         }
     }
 }

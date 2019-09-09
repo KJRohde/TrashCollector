@@ -22,6 +22,9 @@ namespace TrashCollector.Migrations
                         PickupDay = c.Int(nullable: false),
                         OneTimePickup = c.String(),
                         PickupActivity = c.Boolean(nullable: false),
+                        MonthlyBill = c.Double(nullable: false),
+                        SuspensionStart = c.String(),
+                        SuspensionEnd = c.String(),
                         ApplicationUserId = c.String(maxLength: 128),
                     })
                 .PrimaryKey(t => t.Id)

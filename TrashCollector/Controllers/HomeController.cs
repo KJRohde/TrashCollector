@@ -10,9 +10,22 @@ namespace TrashCollector.Controllers
     public class HomeController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
-        public ActionResult Index()
+        public ActionResult Index(string username)
         {
-            return View();
+            if (User.IsInRole("Customer"))
+            {
+                Customer customer = db.Customers.FirstOrDefault(c => c.UserName == username);
+                return RedirectToAction("Index", "Customer", new { id = customer.Id });
+            }
+            if (User.IsInRole("Employee"))
+            {
+                Employee employee = db.Employees.FirstOrDefault(e => e.UserName == username);
+                return RedirectToAction("Index", "Employee", new { id = employee.Id });
+            }
+            else
+            {
+                return View();
+            }
         }
 
         public ActionResult About()

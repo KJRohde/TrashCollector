@@ -81,18 +81,7 @@ namespace TrashCollector.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    Customer customer = db.Customers.FirstOrDefault(c => c.UserName == model.UserName);
-                    Employee employee = db.Employees.FirstOrDefault(e => e.UserName == model.UserName);
-
-                    if (customer != null)
-                    {
-                        return RedirectToAction("Index", "Customer", new { id = customer.Id });
-                    }
-                    if (employee != null)
-                    {
-                        return RedirectToAction("Index", "Employee", new { id = employee.Id });
-                    }
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "Home", new { username = model.UserName });
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
@@ -170,8 +159,9 @@ namespace TrashCollector.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
+                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
                     await UserManager.AddToRoleAsync(user.Id, model.UserRoles);
-
+                    
                     return RedirectToAction("Create", model.UserRoles);
                 }
                 AddErrors(result);
