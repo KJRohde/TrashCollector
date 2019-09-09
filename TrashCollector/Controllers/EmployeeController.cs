@@ -18,11 +18,27 @@ namespace TrashCollector.Controllers
         // GET: Employees
         public ActionResult Index(int id, string chosenDay)
         {
+            var today = DateTime.Now.DayOfYear.ToString();
+            var suspendedCustomer = db.Customers.Where(s => s.SuspensionStart == today).ToList();
+            if (suspendedCustomer != null)
+            {
+                foreach(Customer customer in suspendedCustomer)
+                {
+                    customer.PickupActivity = false;
+                }
+            }
+            var returningCustomer = db.Customers.Where(s => s.SuspensionEnd == today).ToList();
+            if (returningCustomer != null)
+            {
+                foreach (Customer customer in suspendedCustomer)
+                {
+                    customer.PickupActivity = true;
+                }
+            }
             Employee employee = db.Employees.Where(c => c.Id == id).Single();
             var zipCustomers = db.Customers.Where(u => u.ZipCode == employee.AreaZipCode).ToList();
-            if (chosenDay == "Select Day")
+            if (chosenDay == null)
             {
-                string today = DateTime.Now.DayOfWeek.ToString();
                 var todayCustomers = zipCustomers.Where(z => z.PickupActivity == true && z.PickupDay.ToString() == today || z.OneTimePickup == today);
                 return View(todayCustomers);
             }
@@ -31,18 +47,19 @@ namespace TrashCollector.Controllers
                 var chosenCustomers = zipCustomers.Where(z => z.PickupActivity == true && z.PickupDay.ToString() == chosenDay.ToString());
                 return View(chosenCustomers);
             }
-            return View();
         }
 
-        public ActionResult AllCustomers(int id)
+        public ActionResult AllCustomers()
         {
-            Employee employee = db.Employees.Where(c => c.Id == id).Single();
+            var currentEmployee = User.Identity.GetUserId();
+            Employee employee = db.Employees.Where(c => c.ApplicationUserId == currentEmployee).Single();
             var zipCustomers = db.Customers.Where(u => u.ZipCode == employee.AreaZipCode).ToList();
             return View(zipCustomers);
         }
-        public ActionResult DailyCustomers(int id, DateTime chosenDay)
+        public ActionResult DailyCustomers(DateTime chosenDay)
         {
-            Employee employee = db.Employees.Where(c => c.Id == id).Single();
+            var currentEmployee = User.Identity.GetUserId();
+            Employee employee = db.Employees.Where(c => c.ApplicationUserId == currentEmployee).Single();
             var zipCustomers = db.Customers.Where(u => u.ZipCode == employee.AreaZipCode).ToList();
             var dayCustomers = zipCustomers.Where(z => z.PickupDay.ToString() == chosenDay.ToString());
             return View(dayCustomers);
@@ -153,6 +170,24 @@ namespace TrashCollector.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+        public ActionResult Charge(int id)
+        {
+            Customer customer = db.Customers.Where(c => c.Id == id).Single();
+            {
+                var employeeId = User.Identity.GetUserId();
+                var employeeCharging = db.Employees.Where(e => e.ApplicationUserId == employeeId).Single();
+                double pickupCharge = 15.00;
+                
+                if (ModelState.IsValid)
+                {
+                    Customer customerToCharge = db.Customers.Where(c => c.Id == id).Single();
+                    customerToCharge.MonthlyBill += pickupCharge;
+                    db.SaveChanges();
+                    return RedirectToAction("Index", new { id = employeeCharging.Id });
+                }
+                return View();
+            }
         }
     }
 }

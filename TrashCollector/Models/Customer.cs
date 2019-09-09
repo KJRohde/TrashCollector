@@ -36,10 +36,8 @@ namespace TrashCollector.Models
         [Display(Name = "Monthly Bill")]
         public double MonthlyBill { get; set; }
         [Display(Name = "Suspension Start")]
-        [DataType(DataType.Date)]
         public string SuspensionStart { get; set; }
         [Display(Name = "Suspension End")]
-        [DataType(DataType.Date)]
         public string SuspensionEnd { get; set; }
 
         [ForeignKey("ApplicationUser")]

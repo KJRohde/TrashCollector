@@ -82,6 +82,19 @@
         <dd>
             @Html.DisplayFor(model => model.MonthlyBill)
         </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.SuspensionStart)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.SuspensionStart)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.SuspensionEnd)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SuspensionEnd)
+        </dd>
     </dl>
     <div class="form-group">
         @Html.LabelFor(model => model.PickupActivity, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -94,5 +107,5 @@
 <p>
     @Html.ActionLink("Edit Information", "Edit", new { id = Model.Id })
     @Html.ActionLink("Request one time pickup", "OneTime", new { id = Model.Id })
-    @Html.ActionLink("Monthly Statement", "Statement", new { id = Model.Id})
+    @Html.ActionLink("Suspend Pickups", "Suspend", new { id = Model.Id })
 </p>
