@@ -189,5 +189,10 @@ namespace TrashCollector.Controllers
                 return View();
             }
         }
+        public ActionResult Map(int id)
+        {
+            Customer customer = db.Customers.Where(c => c.Id == id).Single();
+            return RedirectToAction("Map", new { id = customer.Id });
+        }
     }
 }
