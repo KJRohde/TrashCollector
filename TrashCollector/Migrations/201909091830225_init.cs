@@ -19,7 +19,7 @@ namespace TrashCollector.Migrations
                         City = c.String(),
                         State = c.String(),
                         ZipCode = c.String(),
-                        PickupDay = c.Int(nullable: false),
+                        PickupDay = c.String(),
                         OneTimePickup = c.String(),
                         PickupActivity = c.Boolean(nullable: false),
                         MonthlyBill = c.Double(nullable: false),

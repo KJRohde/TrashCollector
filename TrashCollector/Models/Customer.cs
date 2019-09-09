@@ -27,7 +27,7 @@ namespace TrashCollector.Models
         [Display(Name = "Zip")]
         public string ZipCode { get; set; }
         [Display(Name = "Weekly Pickup Day")]
-        public DayOfWeek PickupDay { get; set; }
+        public string PickupDay { get; set; }
         [Display(Name = "One Time")]
         [DataType(DataType.Date)]
         public string OneTimePickup { get; set; }
@@ -50,5 +50,6 @@ namespace TrashCollector.Models
         {
             throw new NotImplementedException();
         }
+        public enum DayOfWeek { }
     }
 }

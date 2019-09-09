@@ -6,6 +6,11 @@
 <h2>Today's Customers</h2>
 
 @Html.ActionLink("All Customers", "AllCustomers", "Employee")
+@using (Html.BeginForm("Index", "Employees", FormMethod.Get))
+{
+    @Html.DropDownList("chosenDay", new SelectList(Enum.GetValues(typeof(DayOfWeek))), "Select Day", new { @class = "form-control" })
+    <input type="submit" value="Search" />
+}
 
 <table class="table">
     <tr>
@@ -51,7 +56,10 @@
             <td>
                 @Html.DisplayFor(modelItem => item.ZipCode)
             </td>
+            <td>
+                @Html.("Confirm Pickup", "Charge", new { id = item.Id })
+            </td>
         </tr>
     }
-    </table>
-    @Html.ActionLink("All Customers", "AllCustomers", "Employee")
+</table>
+@Html.ActionLink("All Customers", "AllCustomers", "Employee")

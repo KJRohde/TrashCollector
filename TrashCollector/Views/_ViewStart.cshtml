@@ -1,9 +1,9 @@
 ﻿@{
-    if (this.User.IsInRole("Customer"))
+    if (HttpContext.Current.User.IsInRole("Customer"))
     {
         Layout = "~/Views/Shared/_LayoutCustomer.cshtml";
     }
-    else if (this.User.IsInRole("Employee"))
+    else if (HttpContext.Current.User.IsInRole("Employee"))
     {
         Layout = "~/Views/Shared/_LayoutEmployee.cshtml";
     }

@@ -16,19 +16,36 @@ namespace TrashCollector.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Employees
-        public ActionResult Index(int id)
+        public ActionResult Index(int id, string chosenDay)
         {
-            string today = DateTime.Now.DayOfWeek.ToString();
             Employee employee = db.Employees.Where(c => c.Id == id).Single();
-            var customers = db.Customers.Where(u => u.ZipCode == employee.AreaZipCode && u.PickupDay.ToString() == today).ToList();
-            return View(customers);
+            var zipCustomers = db.Customers.Where(u => u.ZipCode == employee.AreaZipCode).ToList();
+            if (chosenDay == "Select Day")
+            {
+                string today = DateTime.Now.DayOfWeek.ToString();
+                var todayCustomers = zipCustomers.Where(z => z.PickupActivity == true && z.PickupDay.ToString() == today || z.OneTimePickup == today);
+                return View(todayCustomers);
+            }
+            else
+            {
+                var chosenCustomers = zipCustomers.Where(z => z.PickupActivity == true && z.PickupDay.ToString() == chosenDay.ToString());
+                return View(chosenCustomers);
+            }
+            return View();
         }
 
         public ActionResult AllCustomers(int id)
         {
             Employee employee = db.Employees.Where(c => c.Id == id).Single();
-            List<Customer> customers = db.Customers.Where(u => u.ZipCode == employee.AreaZipCode).ToList();
-            return View(customers);
+            var zipCustomers = db.Customers.Where(u => u.ZipCode == employee.AreaZipCode).ToList();
+            return View(zipCustomers);
+        }
+        public ActionResult DailyCustomers(int id, DateTime chosenDay)
+        {
+            Employee employee = db.Employees.Where(c => c.Id == id).Single();
+            var zipCustomers = db.Customers.Where(u => u.ZipCode == employee.AreaZipCode).ToList();
+            var dayCustomers = zipCustomers.Where(z => z.PickupDay.ToString() == chosenDay.ToString());
+            return View(dayCustomers);
         }
 
         // GET: Employees/Details/5
