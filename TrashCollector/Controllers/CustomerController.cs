@@ -15,14 +15,12 @@ namespace TrashCollector.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: Employees
         public ActionResult Index(int id)
         {
             Customer customer = db.Customers.Where(c => c.Id == id).Single();
             return View(customer);
         }
 
-        // GET: Employees/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -63,7 +61,7 @@ namespace TrashCollector.Controllers
             return View(oneTimeCustomer);
         }
         [HttpPost]
-        public ActionResult OneTime([Bind(Include = "ApplicationUserId, UserName, Id, FirstName, LastName, PickupActivity, StreetAddress, City, State, ZipCode, PickupDay, OneTimePickup")] string id, Customer customer)
+        public ActionResult OneTime([Bind(Include = "OneTimePickup")] string id, Customer customer)
         {
             Customer oneTimeCustomer = db.Customers.Where(c => c.ApplicationUserId == id).Single();
             oneTimeCustomer.OneTimePickup = customer.OneTimePickup;

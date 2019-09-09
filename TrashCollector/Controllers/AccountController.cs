@@ -81,15 +81,15 @@ namespace TrashCollector.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
+                    Customer customer = db.Customers.FirstOrDefault(c => c.UserName == model.UserName);
+                    Employee employee = db.Employees.FirstOrDefault(e => e.UserName == model.UserName);
 
-                    if (User.IsInRole("Customer"))
+                    if (customer != null)
                     {
-                        Customer customer = db.Customers.Where(c => c.UserName == model.UserName).Single();
                         return RedirectToAction("Index", "Customer", new { id = customer.Id });
                     }
-                    if (User.IsInRole("Employee"))
+                    if (employee != null)
                     {
-                        Employee employee = db.Employees.Where(e => e.UserName == model.UserName).Single();
                         return RedirectToAction("Index", "Employee", new { id = employee.Id });
                     }
                     return RedirectToAction("Index", "Home");
@@ -171,6 +171,7 @@ namespace TrashCollector.Controllers
                 if (result.Succeeded)
                 {
                     await UserManager.AddToRoleAsync(user.Id, model.UserRoles);
+
                     return RedirectToAction("Create", model.UserRoles);
                 }
                 AddErrors(result);

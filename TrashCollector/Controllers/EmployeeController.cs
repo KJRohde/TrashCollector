@@ -17,9 +17,10 @@ namespace TrashCollector.Controllers
 
         // GET: Employees
         public ActionResult Index(int id)
-        {          
+        {
+            string today = DateTime.Now.DayOfWeek.ToString();
             Employee employee = db.Employees.Where(c => c.Id == id).Single();
-            var customers = db.Customers.Where(u => u.ZipCode == employee.AreaZipCode && u.PickupDay.ToString() == DateTime.Now.DayOfWeek.ToString()).ToList();
+            var customers = db.Customers.Where(u => u.ZipCode == employee.AreaZipCode && u.PickupDay.ToString() == today).ToList();
             return View(customers);
         }
 
