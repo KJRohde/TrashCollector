@@ -3,10 +3,8 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Today's Customers</h2>
+<h2>Daily Customers</h2>
 
-@Html.ActionLink("All Customers", "AllCustomers", "Employee")
-@Html.ActionLink("Edit Information", "Edit", "Employee")
 @using (Html.BeginForm("Index", "Employee", FormMethod.Get))
 {
     @Html.DropDownList("chosenDay", new SelectList(Enum.GetValues(typeof(DayOfWeek))), "Select Day", new { @class = "form-control" })
@@ -64,4 +62,3 @@
         </tr>
     }
 </table>
-@Html.ActionLink("All Customers", "AllCustomers", "Employee")

@@ -61,12 +61,12 @@ namespace TrashCollector.Controllers
             return View(oneTimeCustomer);
         }
         [HttpPost]
-        public ActionResult OneTime([Bind(Include = "OneTimePickup")] Customer customer, string id)
+        public ActionResult OneTime([Bind(Include = "OneTimePickup")] Customer customer, int id)
         {
-            Customer oneTimeCustomer = db.Customers.Find(id);
+            Customer oneTimeCustomer = db.Customers.Where(o => o.Id == id).Single();
             oneTimeCustomer.OneTimePickup = customer.OneTimePickup;
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", new { id = oneTimeCustomer.Id });
         }
 
         public ActionResult Edit(int? id)
